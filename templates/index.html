@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Workout Tracker{% endblock %}
+
+{% block content %}
+    <h1 class="text-center text-3xl font-bold mb-5">Workout Tracker</h1>
+
+    <form action="/add" method="POST" class="mb-5 p-4 bg-white rounded shadow">
+        <div class="form-group">
+            <input type="text" name="name" class="form-control" placeholder="Exercise Name" required>
+        </div>
+        <div class="form-group">
+            <input type="number" name="sets" class="form-control" placeholder="Sets" required>
+        </div>
+        <div class="form-group">
+            <input type="number" name="reps" class="form-control" placeholder="Reps" required min="0">
+        </div>
+        <button type="submit" class="btn btn-success">Add Exercise</button>
+    </form>
+
+    <h2 class="text-2xl font-semibold mb-3">Exercises</h2>
+    <div class="row">
+        {% for exercise in exercises %}
+            <div class="col-md-4 mb-4">
+                <div class="card border-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ exercise.name }}</h5>
+                        <p class="card-text">Sets: {{ exercise.sets }}</p>
+                        <p class="card-text">Reps: {{ exercise.reps }}</p>
+                        <div>
+                            {% if not exercise.completed %}
+                                <a href="/complete/{{ exercise.id }}" class="btn btn-primary">Complete</a>
+                                <a href="/delete/{{ exercise.id }}" class="btn btn-danger">Delete</a>
+                            {% else %}
+                                <span class="badge badge-success">Completed</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
